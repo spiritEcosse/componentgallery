@@ -1,0 +1,5 @@
+*.autosave
+*.pro.user
+.qmake.stash
+Makefile
+*.pro.user*
