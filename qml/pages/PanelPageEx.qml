@@ -149,13 +149,15 @@ Page {
 
                 SectionHeader {
                     text: "Expanding sections"
+                    id: header
                 }
 
                 ExpandingSectionGroup {
                     currentIndex: 0
+                    id: expandGroup
 
                     Repeater {
-                        model: 5
+                        model: 10
 
                         ExpandingSection {
                             id: section
@@ -167,8 +169,6 @@ Page {
                                 width: section.width
 
                                 ExpandingSectionGroup {
-                                    currentIndex: 0
-
                                     Repeater {
                                         model: (section.sectionIndex + 1) * 2
 

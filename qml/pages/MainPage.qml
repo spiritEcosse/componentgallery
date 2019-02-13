@@ -137,6 +137,12 @@ Page {
             subtitle: "Extended panel and section components"
             section: "View"
         }
+        ListElement {
+            page: "ExpandingSectionGroup.qml"
+            title: "Extended ExpandingSectionGroup"
+            subtitle: "Extended ExpandingSectionGroup"
+            section: "View"
+        }
 
         ListElement {
             page: "WebViewPage.qml"
