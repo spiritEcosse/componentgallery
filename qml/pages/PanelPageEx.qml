@@ -174,7 +174,7 @@ Page {
 
                                         ExpandingSection {
                                             id: sectionS
-                                            title: "SectionS " + (model.index + 1)
+                                            title: model.index + 1
 
                                             content.sourceComponent: Column {
                                                 width: sectionS.width

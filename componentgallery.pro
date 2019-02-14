@@ -15,4 +15,5 @@ OTHER_FILES += \
     componentgallery.desktop
 
 DISTFILES += \
-    qml/pages/PanelPageEx.qml
+    qml/pages/PanelPageEx.qml \
+    qml/pages/ListViewExpandingSectionPage.qml

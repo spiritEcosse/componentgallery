@@ -144,6 +144,13 @@ Page {
             section: "View"
         }
 
+//        ListElement {
+//            page: "ListViewExpandingSectionPage.qml"
+//            title: "ListViewExpandingSection"
+//            subtitle: "ListViewExpandingSection"
+//            section: "View"
+//        }
+
         ListElement {
             page: "WebViewPage.qml"
             title: "Web View"

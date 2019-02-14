@@ -7,7 +7,11 @@ Page {
     SilicaFlickable {
         id: silicaFlickable
         anchors.fill: parent
-        contentHeight: column.height + Theme.paddingLarge
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        width: parent.width
+//        contentHeight: column.height + Theme.paddingLarge
+        VerticalScrollDecorator {}
 
         PullDownMenu {
             id: pullDownMenu
@@ -28,18 +32,40 @@ Page {
             }
         }
 
-        Column {
-            id: column
-            spacing: Theme.paddingLarge
-            width: parent.width
+//        Column {
+//            id: column
+//            spacing: Theme.paddingLarge
+//            width: parent.width
 
-            PageHeader {
+            FlippingPageHeader {
                 id: header
-                title: "ExpandingSectionGroup"
+                animate: page.status === PageStatus.Active
+                width: parent.width
+                title: sectionPr + subSectionPr
+                property string sectionPr: "sectionPr"
+                property string subSectionPr: " subSectionPr"
+                onSectionPrChanged: subSectionPr = ""
+            }
+
+            Image {
+                width: parent.width
+                height: header.height
+                source: "image://theme/graphic-gradient-edge"
+                rotation: 180
             }
 
             ExpandingSectionGroup {
                 id: expandGroup
+                onCurrentSectionChanged: {
+                    header.sectionPr = currentSection ? currentSection.title : ""
+                }
+                clip: true
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: header.bottom
+                    bottom: parent.bottom
+                }
 
                 function findFlickable(item) {
                     var parentItem = item.parent
@@ -86,12 +112,17 @@ Page {
                             width: section.width
 
                             ExpandingSectionGroup {
+                                id: expandGroupSub
+                                onCurrentSectionChanged: {
+                                    header.subSectionPr = currentSection ? " sub " + currentSection.title : ""
+                                }
+
                                 Repeater {
                                     model: (section.sectionIndex + 1) * 2
 
                                     ExpandingSection {
                                         id: sectionS
-                                        title: "sub " + (model.index + 1)
+                                        title: model.index + 1
 
                                         content.sourceComponent: Column {
                                             width: sectionS.width
@@ -119,5 +150,5 @@ Page {
                 }
             }
         }
-    }
+//    }
 }
