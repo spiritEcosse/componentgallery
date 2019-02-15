@@ -7,64 +7,66 @@ Page {
     SilicaFlickable {
         id: silicaFlickable
         anchors.fill: parent
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
         width: parent.width
-//        contentHeight: column.height + Theme.paddingLarge
+//        contentHeight: silicaFlickableContent.height
         VerticalScrollDecorator {}
 
         PullDownMenu {
             id: pullDownMenu
             MenuItem {
                 text: "Jump to the end"
-                onClicked: silicaFlickable.scrollToBottom()
+                onClicked: silicaFlickableContent.scrollToBottom()
             }
             MenuLabel {
                 text: "Menu label"
             }
         }
-        PushUpMenu {
-            id: pushUpMenu
-            spacing: Theme.paddingLarge
-            MenuItem {
-                text: "Return to Top"
-                onClicked: silicaFlickable.scrollToTop()
-            }
+
+//        Need a fix.
+//        Does not work correctly, because:
+//        QML SilicaFlickable (silicaFlickable) : Binding loop detected for property "contentHeight"
+//        PushUpMenu {
+//            id: pushUpMenu
+//            spacing: Theme.paddingLarge
+//            MenuItem {
+//                text: "Return to Top"
+//                onClicked: silicaFlickableContent.scrollToTop()
+//            }
+//        }
+
+        FlippingPageHeader {
+            id: header
+            animate: page.status === PageStatus.Active
+            width: parent.width
+            title: sectionPr + subSectionPr
+            property string sectionPr: "sectionPr"
+            property string subSectionPr: " subSectionPr"
+            onSectionPrChanged: subSectionPr = ""
         }
 
-//        Column {
-//            id: column
-//            spacing: Theme.paddingLarge
-//            width: parent.width
+        Image {
+            width: parent.width
+            height: header.height
+            source: "image://theme/graphic-gradient-edge"
+            rotation: 180
+        }
 
-            FlippingPageHeader {
-                id: header
-                animate: page.status === PageStatus.Active
-                width: parent.width
-                title: sectionPr + subSectionPr
-                property string sectionPr: "sectionPr"
-                property string subSectionPr: " subSectionPr"
-                onSectionPrChanged: subSectionPr = ""
-            }
-
-            Image {
-                width: parent.width
-                height: header.height
-                source: "image://theme/graphic-gradient-edge"
-                rotation: 180
+        SilicaFlickable {
+            id: silicaFlickableContent
+            width: parent.width
+            contentHeight: expandGroup.height
+            clip: true
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: header.bottom
+                bottom: parent.bottom
             }
 
             ExpandingSectionGroup {
                 id: expandGroup
                 onCurrentSectionChanged: {
                     header.sectionPr = currentSection ? currentSection.title : ""
-                }
-                clip: true
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    top: header.bottom
-                    bottom: parent.bottom
                 }
 
                 function findFlickable(item) {
@@ -150,5 +152,5 @@ Page {
                 }
             }
         }
-//    }
+    }
 }
