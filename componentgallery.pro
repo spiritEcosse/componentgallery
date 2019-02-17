@@ -16,4 +16,5 @@ OTHER_FILES += \
 
 DISTFILES += \
     qml/pages/PanelPageEx.qml \
-    qml/pages/ListViewExpandingSectionPage.qml
+    qml/pages/ListViewExpandingSectionPage.qml \
+    qml/pages/ExpandingSectionGroupPage.qml

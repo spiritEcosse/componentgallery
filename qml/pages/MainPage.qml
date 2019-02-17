@@ -138,7 +138,7 @@ Page {
             section: "View"
         }
         ListElement {
-            page: "ExpandingSectionGroup.qml"
+            page: "ExpandingSectionGroupPage.qml"
             title: "Extended ExpandingSectionGroup"
             subtitle: "Extended ExpandingSectionGroup"
             section: "View"
