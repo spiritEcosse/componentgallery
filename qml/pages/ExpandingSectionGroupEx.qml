@@ -3,9 +3,6 @@ import Sailfish.Silica 1.0
 
 ExpandingSectionGroup {
     id: expandGroup
-    onCurrentSectionChanged: {
-        header.sectionPr = currentSection ? currentSection.title : ""
-    }
 
     function findFlickable(item) {
         var parentItem = item.parent
@@ -27,8 +24,8 @@ ExpandingSectionGroup {
         }
 
         var absY = newSection.mapToItem(null, 0, 0).y
-        var headerH = header.height + Theme.paddingMedium
-        var expGrY = currentIndex * newSection.buttonHeight + Theme.paddingMedium
+        var headerH = header ? header.height : 0
+        var expGrY = currentIndex * newSection.buttonHeight
         contentYAnimation.to = expGrY + headerH - absY
         contentYAnimation.start()
     }

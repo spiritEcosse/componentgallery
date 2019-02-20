@@ -66,7 +66,9 @@ Page {
             ExpandingSectionGroupEx {
                 id: expandGroup
                 onCurrentSectionChanged: {
-                    header.sectionPr = currentSection ? currentSection.title : ""
+                    if (currentSection) {
+                        header.sectionPr = currentSection.title
+                    }
                 }
 
                 Repeater {
@@ -83,7 +85,44 @@ Page {
                             ExpandingSectionGroup {
                                 id: expandGroupSub
                                 onCurrentSectionChanged: {
-                                    header.subSectionPr = currentSection ? " sub " + currentSection.title : ""
+                                    if (currentSection) {
+                                        header.subSectionPr = " sub " + currentSection.title
+                                    }
+                                }
+
+                                function findFlickable(item) {
+                                    var parentItem = item.parent
+                                    while (parentItem) {
+                                        if (parentItem.maximumFlickVelocity && !parentItem.hasOwnProperty('__silica_hidden_flickable')) {
+                                            return parentItem
+                                        }
+                                        parentItem = parentItem.parent
+                                    }
+                                    return null
+                                }
+
+                                function _updateFlickableContentY(oldSection, newSection) {
+                                    if (!expandGroupSub._flickable) {
+                                        expandGroupSub._flickable = findFlickable(expandGroupSub)
+                                    }
+                                    if (!expandGroupSub._flickable) {
+                                        return
+                                    }
+
+
+                                    var absY = newSection.mapToItem(null, 0, 0).y
+                                    console.log(absY, expandGroup.currentIndex * expandGroup.currentSection.buttonHeight)
+                                    var expGrY = currentIndex * newSection.buttonHeight + expandGroup.currentIndex * expandGroup.currentSection.buttonHeight
+//                                    var expGrY = currentIndex * newSection.buttonHeight
+                                    contentYAnimation.to = expGrY
+                                    contentYAnimation.start()
+                                }
+
+                                NumberAnimation {
+                                    id: contentYAnimation
+                                    target: expandGroupSub._flickable
+                                    property: "contentY"
+                                    duration: expandGroupSub.animationDuration
                                 }
 
                                 Repeater {
